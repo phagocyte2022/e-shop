@@ -1,6 +1,6 @@
 package edu.trainingprojects.eshop.controllers;
 
-import edu.trainingprojects.eshop.dto.UserDto;
+import edu.trainingprojects.eshop.dto.UserDTO;
 import edu.trainingprojects.eshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,16 +19,23 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping
+    public String userList(Model model){
+        model.addAttribute("user", userService.getAll());
+        return "userList";
+    }
+
+
     @GetMapping("/new")
     public String newUser(Model model){
-        model.addAttribute("user", new UserDto());
+        model.addAttribute("user", new UserDTO());
         return "user";
     }
 
     @PostMapping("/new")
-    public String saveUser (UserDto dto, Model model){
+    public String saveUser (UserDTO dto, Model model){
         if (userService.save(dto)){
-            return "/redirect:/";
+            return "/redirect:/user";
 
         } else {
             model.addAttribute("user", dto);

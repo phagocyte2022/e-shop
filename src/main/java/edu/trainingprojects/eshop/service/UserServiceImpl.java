@@ -3,7 +3,7 @@ package edu.trainingprojects.eshop.service;
 import edu.trainingprojects.eshop.dao.UserRepository;
 import edu.trainingprojects.eshop.domain.Role;
 import edu.trainingprojects.eshop.domain.User;
-import edu.trainingprojects.eshop.dto.UserDto;
+import edu.trainingprojects.eshop.dto.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean save(UserDto userDTO) {
+    public boolean save(UserDTO userDTO) {
         if (!Objects.equals(userDTO.getPassword(), userDTO.getMatchingPassword())){
             throw new RuntimeException("password does not match");
         }
@@ -40,6 +41,20 @@ public class UserServiceImpl implements UserService{
 
         userRepository.save(user);
         return true;
+    }
+
+    @Override
+    public List<UserDTO> getAll() {
+        return userRepository.findAll().stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    private UserDTO toDto(User user) {
+        return UserDTO.builder()
+                .username(user.getName())
+                .email(user.getEmail())
+                .build();
     }
 
     @Override
