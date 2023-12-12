@@ -1,5 +1,6 @@
 package edu.trainingprojects.eshop.service;
 
+import edu.trainingprojects.eshop.domain.User;
 import edu.trainingprojects.eshop.dto.UserDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -9,4 +10,9 @@ public interface UserService extends UserDetailsService { //for security reasons
     boolean save(UserDTO userDTO);
     List<UserDTO> getAll();
 
+    User findByName(String name);
+    void updateProfile(UserDTO dto);
+
+
 }
+
