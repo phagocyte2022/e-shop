@@ -13,11 +13,13 @@ import java.util.List;
 public interface ProductMapper {
     ProductMapper MAPPER = Mappers.getMapper(ProductMapper.class);
 
-    Product toProduct (ProductDTO dto);
+    Product toProduct(ProductDTO dto);
 
     @InheritInverseConfiguration
     ProductDTO fromProduct(Product product);
-    List<Product> toProductList(List<ProductDTO> productDTOS);
+
+    List<Product> toProductList(List<ProductDTO> productDtos);
+
     List<ProductDTO> fromProductList(List<Product> products);
 
 }
